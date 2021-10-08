@@ -1,6 +1,5 @@
 package com.github.dr.rwserver.core;
 
-import com.github.dr.rwserver.core.thread.Threads;
 import com.github.dr.rwserver.data.Player;
 import com.github.dr.rwserver.data.global.Data;
 import com.github.dr.rwserver.data.global.NetStaticData;
@@ -13,7 +12,6 @@ import com.github.dr.rwserver.util.zip.gzip.GzipEncoder;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 /**
@@ -73,12 +71,16 @@ public class Call {
         GroupGame.games.keySet().forEach(Call::sendTeamData);
     }
     public static void sendPlayerPing() {
-        GroupGame.games.forEach((x,y)->{
-            if(!y.isStartGame){
-                GroupGame.playerGroup(x).forEach(p->p.con.ping());
-            }
-            sendTeamData(x);
-        });
+        try{
+            GroupGame.games.forEach((x,y)->{
+                if(!y.isStartGame){
+                    GroupGame.playerGroup(x).forEach(p->p.con.ping());
+                }
+                sendTeamData(x);
+            });
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
     }
 //    public static void killAllPlayer() {
 //        Data.playerGroup.each(e -> {

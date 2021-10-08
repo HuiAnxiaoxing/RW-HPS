@@ -79,7 +79,7 @@ public class Main {
 
 		Data.config = new LoadConfig(Data.Plugin_Data_Path,"Config.json");
 
-		initialization.startInit();
+//		initialization.startInit();
 
 		/* 命令加载 */
 		new ServerCommands(Data.SERVERCOMMAND);
