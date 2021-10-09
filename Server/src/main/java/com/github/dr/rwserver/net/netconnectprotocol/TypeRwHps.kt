@@ -13,6 +13,7 @@ class TypeRwHps : TypeConnect {
     override fun typeConnect(con: AbstractNetConnect, packet: Packet) {
         con.setLastReceivedTime()
         if (packet.type == PacketType.PACKET_ADD_GAMECOMMAND) {
+            con.player?.let { GroupGame.gU(it.groupId) }
             con.receiveCommand(packet)
             con.player!!.lastMoveTime = millis()
         } else {

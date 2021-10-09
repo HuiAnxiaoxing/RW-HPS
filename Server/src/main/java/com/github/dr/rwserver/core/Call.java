@@ -73,6 +73,7 @@ public class Call {
     public static void sendPlayerPing() {
         try{
             GroupGame.games.forEach((x,y)->{
+
                 if(!y.isStartGame){
                     GroupGame.playerGroup(x).forEach(p->p.con.ping());
                 }

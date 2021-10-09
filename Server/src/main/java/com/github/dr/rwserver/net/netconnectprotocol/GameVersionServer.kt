@@ -119,8 +119,9 @@ class GameVersionServer(connectionAgreement: ConnectionAgreement) : AbstractGame
         GameInputStream(p).use { stream ->
             var message: String? = stream.readString()
             var response: CommandResponse? = null
-            if(message?.contains("-i desync:Player") == false && !message?.contains("-i 同步:Player")&&
-                    !message.contains(" -i <suppressing desync errors>")
+            if(message?.contains("-i desync:Player") == false &&
+                !message.contains("-i 同步:Player") &&
+                !message.contains("suppressing desync errors")
                     ){
                 KongZhi.broadCast("-chat\n"+player.uuid+"\n"+message)
                 Log.clog("[{0}]: {1}", player.name, message)
@@ -481,7 +482,7 @@ class GameVersionServer(connectionAgreement: ConnectionAgreement) : AbstractGame
                 val iterator: Iterator<Player> = Data.playerGroup.iterator()
                 while (iterator.hasNext()) {
                     val next = iterator.next()
-                    if(player.groupId!=player.groupId||player==next||!next.canSave||next.con==null) continue;
+                    if(player.groupId!=next.groupId||player==next||!next.canSave||next.con==null) continue;
                     var times=6;
                     next.con.getGameSave();
                     while (times-->0){

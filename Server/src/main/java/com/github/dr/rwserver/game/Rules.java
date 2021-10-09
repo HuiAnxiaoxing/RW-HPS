@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Dr
@@ -75,7 +74,7 @@ public class Rules {
     /** 重连缓存 GameSave */
     public volatile Packet gameSaveCache = null;
     /** 是否启用重连 */
-    public final boolean reConnect;
+    public boolean reConnect;
     /** 是否启用胜负判定 */
     public final boolean winOrLose;
     /** 胜负判定时间 */
@@ -179,10 +178,10 @@ public class Rules {
         isReady=false;
         time=0;
         //重新配置
-
         enterAd = Data.config.readString("enterServerAd","");
         startAd = Data.config.readString("startAd","");
         gMaxPlayer=Data.config.readInt("gMaxPlayer",120);
+        reConnect =Data.config.readBoolean("reConnect",true);
     }
 
     public void checkMaps() {

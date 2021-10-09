@@ -28,17 +28,21 @@ public class GameTimeLapse {
 
     public void update(){
 //        gameOverCheck();
-        GroupGame.games.forEach((y,x)->{
-            int lap= (int) (System.currentTimeMillis()-x.startTime);
-            if(x.isStartGame){
-                if(lap>(x.stage+1)*5000*60) {
-                    x.stage= (byte) (lap/300000);
-                    Data.playerGroup.eachBooleanIfs(p->p.groupId==y,e -> e.sendSystemMessage("游戏已进行"+lap/60000+"分钟"));
-                    Log.clog("组"+y+" 游戏已进行"+lap/60000+"分钟");
+        try{
+            GroupGame.games.forEach((y,x)->{
+                int lap= (int) (System.currentTimeMillis()-x.startTime);
+                if(x.isStartGame){
+                    if(lap>(x.stage+1)*5000*60) {
+                        x.stage= (byte) (lap/300000);
+                        Data.playerGroup.eachBooleanIfs(p->p.groupId==y,e -> e.sendSystemMessage("游戏已进行"+lap/60000+"分钟"));
+                        Log.clog("组"+y+" 游戏已进行"+lap/60000+"分钟");
+                    }
                 }
-            }
-        });
-        KongZhi.broadCast(KongZhi.gameStateInfo());
+            });
+            KongZhi.broadCast(KongZhi.gameStateInfo());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void refresh(){
