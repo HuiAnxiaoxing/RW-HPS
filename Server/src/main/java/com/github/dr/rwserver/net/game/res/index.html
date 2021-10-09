@@ -258,6 +258,7 @@
             <span class="btn" onclick="boardSwitch(this)">隐藏日志</span>
             <span class="btn" onclick="setCan()">参数设置</span>
             <span class="btn" id="cmdHelp">命令帮助</span>
+            <span class="btn"  id="reconnect" onclick="connect()">重新连接</span>
         </div>
         <span style="background-color: #7f7f7f;width: 20px"></span>
         <div id="cmTab">
@@ -290,7 +291,6 @@
     let pick=new Object();
     pick.s=false;
     pick.for='';
-
 
     let isCon=false;
     let backInfo = document.getElementById("backInfo");
@@ -332,6 +332,7 @@
     function connect(){
         if(ws&&ws.isConnected) {
             boardGoing("已连接")
+            document.getElementById("reconnect").style.display='none'
             return;
         }
         if(document.getElementById("a").value.length<1)  {
@@ -354,6 +355,7 @@
             else if(e.data.startsWith("-chat\n")) {
                 ag=e.data.split('\n');chatShow(ag[1],ag[2])
             }else if(e.data=="200"){
+                pwd=document.getElementById("a").value;
                 showOther()
             }else if(e.data=="错误：100"){
                 backInfo.innerText="你把密码给忘了吗，忘了我也没辙"
@@ -361,6 +363,7 @@
         }
         ws.onclose=function (){
             boardGoing("已断开")
+            document.getElementById("reconnect").style.display='inline'
             isCon=false
         }
     }
